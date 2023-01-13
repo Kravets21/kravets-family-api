@@ -1,0 +1,46 @@
+version: '3.9'
+
+volumes:
+  dbdata:
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+
+  # mysql
+  kravets_family_database:
+    image: mysql:8
+    container_name: kravets_family_database
+    restart: unless-stopped
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    networks:
+      - backend
+
+  # api
+  kravets_family_api:
+    container_name: kravets_family_api
+    image: kravets_family_api_bin
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: dev
+    ports:
+      - ${PUBLIC_PORT}:${LISTEN_PORT}
+    expose:
+      - ${PUBLIC_PORT}
+    depends_on:
+      - kravets_family_database
+    networks:
+      - backend
