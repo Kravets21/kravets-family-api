@@ -20,7 +20,7 @@ debug: ## Start all containers (interact) for development
 
 clear: down
 	@echo "rm app images..."
-	$(docker_bin) images -a | grep "cms_*" | awk '{print $3}' | xargs docker rmi --force
+	$(docker_bin) images -a | grep "kravets-family_*" | awk '{print $3}' | xargs docker rmi --force
 	$(docker_bin) rm ${APP_CONTAINER_NAME}
 
 rebuild: ## Build all containers and start (interact) for development
@@ -38,3 +38,6 @@ restart: up ## Restart all started for development containers
 
 shell: up ## Start shell into application container
 	$(docker_compose_bin) exec "$(APP_CONTAINER_NAME)" /bin/sh
+
+run: ## Start shell into application container
+	go run cmd/api/main.go

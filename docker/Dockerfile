@@ -6,7 +6,7 @@ COPY . .
 
 RUN go build -v -o api cmd/api/main.go
 
-FROM builder as dev
+FROM builder as prod
 
 WORKDIR /bin
 

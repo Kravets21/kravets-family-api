@@ -35,7 +35,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-      target: dev
+      target: prod
     ports:
       - ${PUBLIC_PORT}:${LISTEN_PORT}
     expose:
